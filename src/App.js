@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import {BrowserRouter, Route, Switch } from "react-router-dom";
 import './index.css';
-import Mapbox from './components/Mapbox/Mapbox'
-import Leaflet from './components/Leaflet/Leaflet'
+import Skateparks from './components/Mapbox/Skateparks'
+import Crimes from './components/Mapbox/Crimes'
+// import Leaflet from './components/Leaflet/Leaflet'
 
 function App() {
 
@@ -12,8 +13,9 @@ function App() {
 			<div className="App">
 				<Fragment>
 					<Switch>
-						<Route exact path="/" component={Mapbox} />
-						<Route exact path="/leaflet" component={Leaflet} />
+						<Route exact path="/" component={Crimes} />
+						<Route exact path="/skateparks" component={Skateparks} />
+						{/* <Route exact path="/leaflet" component={Leaflet} /> */}
 					</Switch>
 				</Fragment>
 			</div>

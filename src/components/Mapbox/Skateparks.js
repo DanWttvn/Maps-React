@@ -3,8 +3,9 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl'
 import * as parkData from '../../data/skateboard-parks.json'
 
 
-function Mapbox() {
+function Skateparks() {
 
+	// Setup map
 	const [viewport, setViewport] = useState({
 		latitude: 45.4211,
 		longitude: -75.6903,
@@ -12,6 +13,7 @@ function Mapbox() {
 		width: "100vw",
 		height: "100vh"
 	});
+	
 	const [selectedPark, setSelectedPark] = useState(null)
 
 
@@ -73,4 +75,4 @@ function Mapbox() {
 	);
 }
 
-export default Mapbox;
+export default Skateparks;
