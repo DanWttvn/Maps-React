@@ -1,14 +1,14 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, Fragment, useRef, useEffect } from 'react';
 import useSwr from 'swr'
 import useSupercluster from "use-supercluster";
-import ReactMapGL, { Marker, FlyToInterpolator } from 'react-map-gl'
+import ReactMapGL, { Marker, FlyToInterpolator, Popup } from 'react-map-gl'
 
 
 const fetcher = (...args) => fetch(...args).then(response => response.json());
 
 
 function Crimes() {
-
+	
 	// Setup map
 	const [viewport, setViewport] = useState({
 		latitude: 52.6376,
@@ -18,11 +18,29 @@ function Crimes() {
 		height: "100vh"
 	});
 	const mapRef = useRef();
+	const [activeCrime, setActiveCrime] = useState(null)
+
+
+	// Closes popup on Escape click
+	useEffect(() => {
+		const listener = e => {
+			if(e.key === "Escape") {
+				setActiveCrime(null)
+			}
+		}
+		window.addEventListener("keydown", listener)
+
+		// When the App component is unmounted:
+		return () => {
+			window.removeEventListener("keydown", listener)
+		}
+	}, [])
 
 
 	const url = "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
 	const { data, error } = useSwr(url, fetcher)
 	const crimes = data && !error ? data.slice(0,2000) : []
+
 
 	// for supercluster: GeoJSON Feature objects
 	const points = crimes.map(crime => ({
@@ -64,10 +82,8 @@ function Crimes() {
 				ref={mapRef}
 			>
 				{clusters.map(cluster => {
-
 					const [longitude, latitude] = cluster.geometry.coordinates
 					const { cluster: isCluster, point_count: pointCount } = cluster.properties // theres a prop cluster:true/false. By : changes the name and by { } destructures
-
 
 					// CLusters
 					if(isCluster) {
@@ -102,20 +118,36 @@ function Crimes() {
 						)
 					}
 
-
 					// Individual Points
 					return (
 						<Marker key={cluster.properties.crimeId}
 							latitude={parseFloat(latitude)}
 							longitude={parseFloat(longitude)}
 						>
-							<button className="crime-marker">
+							<button className="crime-marker"
+								onClick={e => {
+									e.preventDefault();
+									console.log(activeCrime)
+									setActiveCrime(cluster)
+								}}
+							>
 								<img src="/custody.svg" alt=""/>
 							</button>
 						</Marker>
 					)
 				})}
 				
+				{activeCrime && (
+					<Popup 
+						latitude={activeCrime.geometry.coordinates[1]}
+						longitude={activeCrime.geometry.coordinates[0]}
+						onClose={() => setActiveCrime(null)}
+					>
+						<div>
+							<h2>{activeCrime.properties.category}</h2>
+						</div>
+					</Popup>
+				)}
 			</ReactMapGL>
 		</Fragment>
 	);

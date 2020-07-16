@@ -15,6 +15,7 @@ code {
 }
 
 .marker-btn {
+	cursor: pointer;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -26,6 +27,7 @@ code {
 }
 
 .cluster-marker {
+	cursor: pointer;
 	color: #fff;
 	background: #1978c8;
 	border-radius: 50%;

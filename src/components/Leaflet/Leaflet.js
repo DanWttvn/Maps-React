@@ -14,10 +14,10 @@ const Leaflet = () => {
 
 	const url = "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
 	const { data, error } = useSwr(url, fetcher)
-
 	const crimes = data && !error ? data.slice(0,100) : []
-	const [activeCrime, setActiveCrime] = useState(null)
 
+	const [activeCrime, setActiveCrime] = useState(null)
+	
 
 	return (
 		<Map center={[52.6376, -1.135171]} zoom={12}>

@@ -5,6 +5,9 @@ import Skateparks from './components/Mapbox/Skateparks'
 import Crimes from './components/Mapbox/Crimes'
 import Leaflet from './components/Leaflet/Leaflet'
 import GoogleMaps from './components/GoogleMaps/GoogleMaps'
+import InitialDeck from './components/Deck/InitialDeck'
+import GunViolence from './components/Deck/GunViolence'
+
 
 function App() {
 	return (
@@ -16,6 +19,8 @@ function App() {
 						<Route exact path="/skateparks" component={Skateparks} />
 						<Route exact path="/leaflet" component={Leaflet} />
 						<Route exact path="/google-maps" component={GoogleMaps} />
+						<Route exact path="/deck-initial" component={InitialDeck} />
+						<Route exact path="/gun-violence" component={GunViolence} />
 					</Switch>
 				</Fragment>
 			</div>
