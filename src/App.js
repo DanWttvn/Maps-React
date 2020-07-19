@@ -7,6 +7,7 @@ import Leaflet from './components/Leaflet/Leaflet'
 import GoogleMaps from './components/GoogleMaps/GoogleMaps'
 import InitialDeck from './components/Deck/InitialDeck'
 import GunViolence from './components/Deck/GunViolence'
+import RealState from './components/Mapbox/RealState'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 						<Route exact path="/google-maps" component={GoogleMaps} />
 						<Route exact path="/deck-initial" component={InitialDeck} />
 						<Route exact path="/gun-violence" component={GunViolence} />
+						<Route exact path="/real-state" component={RealState} />
 					</Switch>
 				</Fragment>
 			</div>
