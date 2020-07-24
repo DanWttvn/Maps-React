@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-export class Filter extends Component {
+export class CategoryFilter extends Component {
 	state = {
 		// https://data.police.uk/api/crime-categories
-		crimecategories: [
+		crimeCategories: [
 			{
 				url: "all-crime",
 				name: "All crime"
@@ -68,15 +68,15 @@ export class Filter extends Component {
 		checked: []
 	}
 	
-	componentDidMount() {
+	// componentDidMount() {
 		// Get Categories
 		// axios.get("https://data.police.uk/api/crime-categories")
 		// 	.then(res => {
 		// 		this.setState({
-		// 			crimecategories: res.data
+		// 			crimeCategories: res.data
 		// 		})
 		// 	})
-	}
+	// }
 	
 	render() {
 
@@ -100,7 +100,7 @@ export class Filter extends Component {
 
 		return (
 			<div>
-				{this.state.crimecategories.map((cat, i) => (
+				{this.state.crimeCategories.map((cat, i) => (
 					<label key={i}
 						onChange={() => handleToggle(cat.url)}
 					><input type="checkbox" value={cat.url} /> {cat.name}</label>
@@ -111,4 +111,4 @@ export class Filter extends Component {
 	}
 }
 
-export default Filter
+export default CategoryFilter
