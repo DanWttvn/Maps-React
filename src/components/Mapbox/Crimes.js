@@ -77,10 +77,8 @@ function Crimes() {
 	// se sigue haciendo un lio. buscar how to merge response of several api calls 
 	// ! parece que con la promise mercge calls pero por alguna razon se guarda de forma distinta y eso no lo display
 	
-	const getFilteredResults = filters => {
+	const getFilteredResults = async filters => {
 		let newResults = []
-		// let newResults = {}
-
 		setResults([])
 
 		if(filters.category.length === 0) {
@@ -91,71 +89,38 @@ function Crimes() {
 				})
 				.catch(err => console.log(err))
 		} else {
-			// filters.category.forEach(filter => {
-			// 	// console.log(filter);
-			// 	axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
-			// 		.then(res => {
-			// 			newResults.push(...res.data)
-			// 			setResults(newResults)
-			// 		})
-			// 		.catch(err => console.log(err))
-			// });
-
 			// const getAllData = () => {
-			// 	filters.category.forEach((filter, i) => {
+			// 	filters.category.forEach(filter => {
 			// 		// console.log(filter);
 			// 		axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
 			// 			.then(res => {
 			// 				// for each call create a variable with diff name
-			// 				newResults[`${i}`] = res.data
+			// 				newResults.push(...res.data)
 			// 			})
 			// 			.catch(err => console.log(err))
 			// 	});
 			// } 
 
+			// // Waits until all the calls are made to set the result
 			// Promise.all([
 			// 	getAllData()
 			// ]).then(
-			// 	// const
 			// 	setResults(newResults)
-			// 	// console.log(typeof(newResults))
-			// )
-
-
-			// Promise.all([
-			// 	filters.category.forEach(filter => {
-			// 		axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
-			// 			.then(res => {
-			// 				newResults.push(...res.data)
-			// 			})
-			// 			.catch(err => console.log(err))
-			// 	})
-			// ]).then(
-			// 	setResults(newResults)
-			// 	// console.log(typeof(newResults))
 			// )
 
 
 
-			const getAllData = () => {
-				filters.category.forEach(filter => {
+			// Waits until all the calls are made to set the result
+			await Promise.all(
+				filters.category.map(async (filter) => {
 					// console.log(filter);
-					axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
-						.then(res => {
-							// for each call create a variable with diff name
-							newResults.push(...res.data)
-						})
-						.catch(err => console.log(err))
-				});
-			} 
-
-			Promise.all([
-				getAllData()
-			]).then(
-				setResults(newResults)
-				// console.log(typeof(newResults))
+					const res = await axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
+					// for each call create a variable with diff name
+					const newData = await res.data
+					newResults.push(...newData)
+				})
 			)
-
+			setResults(newResults)
 		}
 	}
 
