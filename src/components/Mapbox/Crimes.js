@@ -6,7 +6,7 @@ import Filter from "./Filter"
 
 // https://data.police.uk/api/crimes-street/category?lat=52.629729&lng=-1.131592&date=2019-10
 
-
+//* tutorial: https://www.youtube.com/watch?v=ArvR-ddOO78
 
 function Crimes() {
 	
@@ -45,8 +45,6 @@ function Crimes() {
 	}, [])
 
 
-
-
 	// for supercluster: GeoJSON Feature objects
 	const points = results.map(crime => ({
 		type: "Feature",
@@ -81,6 +79,8 @@ function Crimes() {
 	
 	const getFilteredResults = filters => {
 		let newResults = []
+		// let newResults = {}
+
 		setResults([])
 
 		if(filters.category.length === 0) {
@@ -101,18 +101,61 @@ function Crimes() {
 			// 		.catch(err => console.log(err))
 			// });
 
-			Promise.all([
+			// const getAllData = () => {
+			// 	filters.category.forEach((filter, i) => {
+			// 		// console.log(filter);
+			// 		axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
+			// 			.then(res => {
+			// 				// for each call create a variable with diff name
+			// 				newResults[`${i}`] = res.data
+			// 			})
+			// 			.catch(err => console.log(err))
+			// 	});
+			// } 
+
+			// Promise.all([
+			// 	getAllData()
+			// ]).then(
+			// 	// const
+			// 	setResults(newResults)
+			// 	// console.log(typeof(newResults))
+			// )
+
+
+			// Promise.all([
+			// 	filters.category.forEach(filter => {
+			// 		axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
+			// 			.then(res => {
+			// 				newResults.push(...res.data)
+			// 			})
+			// 			.catch(err => console.log(err))
+			// 	})
+			// ]).then(
+			// 	setResults(newResults)
+			// 	// console.log(typeof(newResults))
+			// )
+
+
+
+			const getAllData = () => {
 				filters.category.forEach(filter => {
-				axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
-					.then(res => {
-						newResults.push(...res.data)
-					})
-					.catch(err => console.log(err))
-				})
+					// console.log(filter);
+					axios.get(`https://data.police.uk/api/crimes-street/${filter}?lat=52.629729&lng=-1.131592&date=${filters.date}`)
+						.then(res => {
+							// for each call create a variable with diff name
+							newResults.push(...res.data)
+						})
+						.catch(err => console.log(err))
+				});
+			} 
+
+			Promise.all([
+				getAllData()
 			]).then(
 				setResults(newResults)
 				// console.log(typeof(newResults))
 			)
+
 		}
 	}
 
@@ -199,6 +242,7 @@ function Crimes() {
 					)
 				})}
 				
+				{/* Popups */}
 				{activeCrime && (
 					<Popup 
 						latitude={activeCrime.geometry.coordinates[1]}
